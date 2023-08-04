@@ -515,14 +515,14 @@ void servoEvent (bool Event = 1)
     if (direction == 1) 
     {
       CABLE_SHAFT_STOP_SERVO.write(posMin);
-      delay(500);
+      delay(200);
       MATERIAL_SHAFT_STOP_SERVO.write(posMin);
       return;
     }
     if (direction == 0) 
     {
       MATERIAL_SHAFT_STOP_SERVO.write(posMin);
-      delay(500);
+      delay(200);
       CABLE_SHAFT_STOP_SERVO.write(posMin);
       return;
     }
@@ -595,11 +595,12 @@ void stop()
     sendMsg("stop");
 	  moving = false;
     control = false;
+    servoEvent(1);
     pwm = 0;
     ledcWrite(pwmChannelFwd,pwm);
     ledcWrite(pwmChannelBkwd,pwm);
 	  digitalWrite(EN_PIN,LOW);
-    servoEvent(1);
+
 	}
 //-----------------------------------
 
@@ -622,10 +623,10 @@ void pwmAccel ()
 	  //&& (millis() - tick >= accelDelay) 
       {
         // tick = millis();
-        pwm--;
+        pwm=500;
       } 
     (direction == 0) ? ledcWrite(pwmChannelFwd,pwm) : ledcWrite(pwmChannelBkwd,pwm);
-    if ((!moving)&&(pwm == startPwm)) stop();
+    if ((!moving)&&(pwm == 500)) stop();
   return;
 }
 //-----------------------------------
